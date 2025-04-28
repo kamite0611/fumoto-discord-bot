@@ -52,7 +52,7 @@ export const deleteCommand = async (message: Message) => {
     await message.reply("*You have not saved your data yet.*");
     return;
   }
-  const { rowIndex } = data;
+  const { rowIndex, userRow } = data;
   await deleteUserRow(rowIndex, message);
-  await message.reply("*Deleted:*");
+  await message.reply(`*Deleted:* ${userRow.date}`);
 };
