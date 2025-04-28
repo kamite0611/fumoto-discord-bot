@@ -7,12 +7,24 @@ import {
   updateUserRow,
 } from "./libs/google-sheet/repository";
 
-export const helloCommand = async (message: Message) => {
-  await message.reply("こんにちは！");
+export const helpCommand = async (message: Message) => {
+  await message.reply(
+    `\`\`\`
+/get                  Check your data
+/save <yyyy-mm-dd>    Save your data
+/remove               Remove your data
+\`\`\``
+  );
 };
 
-export const helpCommand = async (message: Message) => {
-  await message.reply("コマンド一覧:\n/hello - こんにちは！");
+export const getCommand = async (message: Message) => {
+  const data = await getUserRow(message);
+  if (!data) {
+    await message.reply("*You have not saved your data yet.*");
+    return;
+  }
+  const { userRow } = data;
+  await message.reply(`*Your data:* ${userRow.date}`);
 };
 
 export const saveCommand = async (message: Message) => {

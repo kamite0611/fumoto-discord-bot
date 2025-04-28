@@ -1,0 +1,28 @@
+steps:
+  # Build the container image
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["compose", "build"]
+
+  # Push the container image to Container Registry
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      ["tag", "fumoto-discord-bot_bot", "gcr.io/$PROJECT_ID/fumoto-discord-bot"]
+
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/fumoto-discord-bot"]
+
+  # Deploy to GCE
+  - name: "gcr.io/cloud-builders/gcloud"
+    args:
+      - "compute"
+      - "instances"
+      - "update-container"
+      - "fumoto-discord-bot"
+      - "--container-image=gcr.io/$PROJECT_ID/fumoto-discord-bot"
+      - "--zone=asia-northeast1-a"
+      - "--container-env=DISCORD_TOKEN=${_DISCORD_TOKEN}"
+      - "--container-env=GOOGLE_SERVICE_ACCOUNT_EMAIL=${_GOOGLE_SERVICE_ACCOUNT_EMAIL}"
+      - "--container-env=GOOGLE_PRIVATE_KEY=${_GOOGLE_PRIVATE_KEY}"
+
+images:
+  - "gcr.io/$PROJECT_ID/fumoto-discord-bot"

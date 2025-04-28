@@ -1,7 +1,7 @@
 import { Client, Message } from "discord.js";
 import {
   deleteCommand,
-  helloCommand,
+  getCommand,
   helpCommand,
   saveCommand,
 } from "./commands";
@@ -38,8 +38,8 @@ async function handleMessage(message: Message): Promise<void> {
 
     // コマンド処理
     switch (command) {
-      case "hello":
-        await helloCommand(message);
+      case "get":
+        await getCommand(message);
         break;
 
       case "save":

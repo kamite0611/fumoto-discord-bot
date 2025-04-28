@@ -9,7 +9,8 @@
     "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
     "docker:run": "docker-compose up --build",
     "docker:down": "docker-compose down",
-    "docker:logs": "docker-compose logs -f"
+    "docker:logs": "docker-compose logs -f",
+    "deploy": "gcloud builds submit --config cloud-build.yaml"
   },
   "dependencies": {
     "discord.js": "^14.14.1",
