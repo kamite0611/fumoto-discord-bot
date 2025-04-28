@@ -4,6 +4,7 @@ services:
   bot:
     build: .
     container_name: fumoto-discord-bot
+    image: fumoto-discord-bot
     env_file:
       - .env
     restart: unless-stopped

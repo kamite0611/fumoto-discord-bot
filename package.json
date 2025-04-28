@@ -10,7 +10,7 @@
     "docker:run": "docker-compose up --build",
     "docker:down": "docker-compose down",
     "docker:logs": "docker-compose logs -f",
-    "deploy": "gcloud builds submit --config cloud-build.yaml"
+    "deploy": "gcloud builds submit --config cloud-build.yaml --project fumoto-discord-bot"
   },
   "dependencies": {
     "discord.js": "^14.14.1",
