@@ -6,7 +6,10 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts"
+    "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
+    "docker:build": "docker build -t fumoto-discord-bot .",
+    "docker:run": "docker run --rm --name fumoto-discord-bot --env-file .env fumoto-discord-bot",
+    "docker:clean": "docker rm fumoto-discord-bot && docker rmi fumoto-discord-bot"
   },
   "dependencies": {
     "discord.js": "^14.14.1",

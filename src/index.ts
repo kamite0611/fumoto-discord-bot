@@ -46,7 +46,7 @@ async function handleMessage(message: Message): Promise<void> {
         await saveCommand(message);
         break;
 
-      case "clear":
+      case "remove":
         await deleteCommand(message);
         break;
 
