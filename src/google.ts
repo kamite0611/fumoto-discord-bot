@@ -1,28 +1,14 @@
-import * as dotenv from "dotenv";
 import { JWT } from "google-auth-library";
 import { google } from "googleapis";
-
-// 環境変数の読み込み
-dotenv.config();
+import { GOOGLE_PRIVATE_KEY, GOOGLE_SERVICE_ACCOUNT_EMAIL } from "./settings";
 
 // Google Sheets APIの設定
 const SPREADSHEET_ID = "1EgCnN36YyzSGZn9EFX_fIbnbk2c4Uc2BHWC0EmXOaZQ";
 
-// サービスアカウントの認証
-console.log("Environment variables:", {
-  GOOGLE_SERVICE_ACCOUNT_EMAIL: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL
-    ? "Set"
-    : "Not set",
-  GOOGLE_PRIVATE_KEY: process.env.GOOGLE_PRIVATE_KEY ? "Set" : "Not set",
-});
-
 const auth = new JWT({
-  email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-  key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
-  scopes: [
-    "https://www.googleapis.com/auth/spreadsheets",
-    "https://www.googleapis.com/auth/drive.file",
-  ],
+  email: GOOGLE_SERVICE_ACCOUNT_EMAIL,
+  key: GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+  scopes: ["https://www.googleapis.com/auth/spreadsheets"],
 });
 
 const sheets = google.sheets({ version: "v4", auth });

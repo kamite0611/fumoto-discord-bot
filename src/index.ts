@@ -2,18 +2,11 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import { Client, GatewayIntentBits, Message } from "discord.js";
+import { Client, Message } from "discord.js";
 import { helloCommand, helpCommand } from "./commands";
+import { DiscordClient } from "./discord";
 import { getSpreadsheetData } from "./google";
-
-// Discordクライアント初期化
-const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent,
-  ],
-});
+import { DISCORD_TOKEN } from "./settings";
 
 // メッセージ処理
 async function handleMessage(message: Message): Promise<void> {
@@ -77,31 +70,28 @@ async function handleMessage(message: Message): Promise<void> {
 // Bot起動処理
 async function startBot(): Promise<Client> {
   console.log("Starting bot...");
-  console.log("Environment variables:", {
-    DISCORD_TOKEN: process.env.DISCORD_TOKEN ? "Set" : "Not set",
-  });
 
   // Botの準備完了時
-  client.once("ready", () => {
-    console.log(`Bot is ready as ${client.user?.tag}`);
+  DiscordClient.once("ready", () => {
+    console.log(`Bot is ready as ${DiscordClient.user?.tag}`);
   });
 
   // メッセージ受信時
-  client.on("messageCreate", async (message) => {
+  DiscordClient.on("messageCreate", async (message) => {
     console.log("Received message:", message.content);
     await handleMessage(message);
   });
 
   // Botログイン
   try {
-    await client.login(process.env.DISCORD_TOKEN);
+    await DiscordClient.login(DISCORD_TOKEN);
     console.log("Bot logged in successfully");
   } catch (error) {
     console.error("Failed to login:", error);
     throw error;
   }
 
-  return client;
+  return DiscordClient;
 }
 
 // 直接実行された場合

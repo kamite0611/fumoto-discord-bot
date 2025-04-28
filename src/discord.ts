@@ -1,4 +1,13 @@
-import { Message } from "discord.js";
+import { Client, GatewayIntentBits, Message } from "discord.js";
+
+// Discordクライアント初期化
+export const DiscordClient = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+  ],
+});
 
 /** Discord ユーザーIDを取得する */
 export const getUserId = (message: Message) => {
