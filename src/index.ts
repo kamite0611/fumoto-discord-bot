@@ -1,24 +1,10 @@
 // index.ts
-import { Client, GatewayIntentBits, Message } from "discord.js";
 import * as dotenv from "dotenv";
-import { JWT } from "google-auth-library";
-import { google } from "googleapis";
-import { helloCommand, helpCommand } from "./commands";
-
-// 環境変数の読み込み
 dotenv.config();
 
-// Google Sheets APIの設定
-const SPREADSHEET_ID = "1EgCnN36YyzSGZn9EFX_fIbnbk2c4Uc2BHWC0EmXOaZQ";
-
-// サービスアカウントの認証
-const auth = new JWT({
-  email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-  key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
-  scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
-});
-
-const sheets = google.sheets({ version: "v4", auth });
+import { Client, GatewayIntentBits, Message } from "discord.js";
+import { helloCommand, helpCommand } from "./commands";
+import { getSpreadsheetData } from "./google";
 
 // Discordクライアント初期化
 const client = new Client({
@@ -28,20 +14,6 @@ const client = new Client({
     GatewayIntentBits.MessageContent,
   ],
 });
-
-// スプレッドシートからデータを取得
-async function getSpreadsheetData(range: string) {
-  try {
-    const response = await sheets.spreadsheets.values.get({
-      spreadsheetId: SPREADSHEET_ID,
-      range: range,
-    });
-    return response.data.values;
-  } catch (error) {
-    console.error("Error fetching spreadsheet data:", error);
-    throw error;
-  }
-}
 
 // メッセージ処理
 async function handleMessage(message: Message): Promise<void> {
@@ -80,13 +52,8 @@ async function handleMessage(message: Message): Promise<void> {
       case "sheet":
         console.log("Executing sheet command");
         try {
-          const data = await getSpreadsheetData("Sheet1!A1:D10");
-          if (data && data.length > 0) {
-            const response = data.map((row) => row.join(" | ")).join("\n");
-            await message.reply("```\n" + response + "\n```");
-          } else {
-            await message.reply("データが見つかりませんでした。");
-          }
+          const data = await getSpreadsheetData();
+          console.log("data", data);
         } catch (error) {
           console.error("Error in sheet command:", error);
           await message.reply("データの取得に失敗しました。");
