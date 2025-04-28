@@ -16,6 +16,13 @@ const auth = new JWT({
 
 const sheets = google.sheets({ version: "v4", auth });
 
+export const getSheetId = async () => {
+  const response = await sheets.spreadsheets.get({
+    spreadsheetId: SPREADSHEET_ID,
+  });
+  return response.data.sheets?.[0]?.properties?.sheetId;
+};
+
 export const appendSpreadsheetData = async (range: string, values: any[][]) => {
   try {
     await sheets.spreadsheets.values.append({
@@ -57,6 +64,32 @@ export const getSpreadsheetData = async (range: string) => {
     return response.data.values;
   } catch (error) {
     console.error("Error fetching spreadsheet data:", error);
+    throw error;
+  }
+};
+
+// 行を削除
+export const deleteRow = async (rowIndex: number) => {
+  try {
+    const response = await sheets.spreadsheets.batchUpdate({
+      spreadsheetId: SPREADSHEET_ID,
+      requestBody: {
+        requests: [
+          {
+            deleteDimension: {
+              range: {
+                dimension: "ROWS",
+                startIndex: rowIndex - 1,
+                endIndex: rowIndex,
+              },
+            },
+          },
+        ],
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting row:", error);
     throw error;
   }
 };

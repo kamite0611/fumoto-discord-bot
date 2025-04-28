@@ -2,6 +2,7 @@ import { Message } from "discord.js";
 import { validateDate } from "./libs/google-sheet/date";
 import {
   createUserRow,
+  deleteUserRow,
   getUserRow,
   updateUserRow,
 } from "./libs/google-sheet/repository";
@@ -31,4 +32,15 @@ export const saveCommand = async (message: Message) => {
 
   const newData = await updateUserRow(rowIndex, message, newDate);
   await message.reply(`*Upddated:* ${userRow.date} -> ${newData.date}`);
+};
+
+export const deleteCommand = async (message: Message) => {
+  const data = await getUserRow(message);
+  if (!data) {
+    await message.reply("*You have not saved your data yet.*");
+    return;
+  }
+  const { rowIndex } = data;
+  await deleteUserRow(rowIndex, message);
+  await message.reply("*Deleted:*");
 };

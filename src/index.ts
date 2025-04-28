@@ -1,5 +1,10 @@
 import { Client, Message } from "discord.js";
-import { helloCommand, helpCommand, saveCommand } from "./commands";
+import {
+  deleteCommand,
+  helloCommand,
+  helpCommand,
+  saveCommand,
+} from "./commands";
 import { DiscordClient } from "./libs/discord";
 import { DISCORD_TOKEN } from "./settings";
 
@@ -39,6 +44,10 @@ async function handleMessage(message: Message): Promise<void> {
 
       case "save":
         await saveCommand(message);
+        break;
+
+      case "clear":
+        await deleteCommand(message);
         break;
 
       case "help":

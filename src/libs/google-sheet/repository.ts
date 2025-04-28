@@ -2,6 +2,7 @@ import { Message } from "discord.js";
 import { getUserId, getUserName } from "../discord";
 import {
   appendSpreadsheetData,
+  deleteRow,
   getSpreadsheetData,
   updateSpreadsheetData,
 } from "./utils";
@@ -90,6 +91,17 @@ export const updateUserRow = async (
     };
   } catch (error) {
     console.error("Error updating user row:", error);
+    throw error;
+  }
+};
+
+export const deleteUserRow = async (rowIndex: number, message: Message) => {
+  try {
+    // 行を削除
+    await deleteRow(rowIndex);
+    return true;
+  } catch (error) {
+    console.error("Error deleting user row:", error);
     throw error;
   }
 };
