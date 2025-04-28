@@ -1,11 +1,6 @@
-// index.ts
-import * as dotenv from "dotenv";
-dotenv.config();
-
 import { Client, Message } from "discord.js";
-import { helloCommand, helpCommand } from "./commands";
-import { DiscordClient } from "./discord";
-import { getSpreadsheetData } from "./google";
+import { helloCommand, helpCommand, saveCommand } from "./commands";
+import { DiscordClient } from "./libs/discord";
 import { DISCORD_TOKEN } from "./settings";
 
 // メッセージ処理
@@ -42,15 +37,8 @@ async function handleMessage(message: Message): Promise<void> {
         await helloCommand(message);
         break;
 
-      case "sheet":
-        console.log("Executing sheet command");
-        try {
-          const data = await getSpreadsheetData();
-          console.log("data", data);
-        } catch (error) {
-          console.error("Error in sheet command:", error);
-          await message.reply("データの取得に失敗しました。");
-        }
+      case "save":
+        await saveCommand(message);
         break;
 
       case "help":
@@ -58,8 +46,6 @@ async function handleMessage(message: Message): Promise<void> {
         break;
 
       default:
-        console.log("Unknown command:", command);
-        await message.reply("不明なコマンドです。");
         break;
     }
   } else {

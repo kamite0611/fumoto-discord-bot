@@ -1,6 +1,6 @@
 import { JWT } from "google-auth-library";
 import { google } from "googleapis";
-import { GOOGLE_PRIVATE_KEY, GOOGLE_SERVICE_ACCOUNT_EMAIL } from "./settings";
+import { GOOGLE_PRIVATE_KEY, GOOGLE_SERVICE_ACCOUNT_EMAIL } from "../settings";
 
 // Google Sheets APIの設定
 const SPREADSHEET_ID = "1EgCnN36YyzSGZn9EFX_fIbnbk2c4Uc2BHWC0EmXOaZQ";
