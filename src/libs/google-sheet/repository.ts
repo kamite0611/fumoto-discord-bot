@@ -9,24 +9,12 @@ import {
 type UserRow = {
   userId: string;
   userName: string;
-  dateList: string[];
+  date: string;
 };
 
 const SHEET_NAME = "ユーザー一覧";
 
-export const saveDate = async (
-  message: Message,
-  newDate: string
-): Promise<UserRow | undefined> => {
-  const data = await getUserRow(message);
-  if (!data) return await createUserRow(message, newDate);
-  const { rowIndex } = data;
-  console.log("rowIndex", rowIndex);
-
-  return await updateUserRow(rowIndex, message, newDate);
-};
-
-const getUserRow = async (
+export const getUserRow = async (
   message: Message
 ): Promise<{ rowIndex: number; userRow: UserRow } | null> => {
   const userId = getUserId(message);
@@ -47,7 +35,7 @@ const getUserRow = async (
       userRow: {
         userId: userRow[0],
         userName: userRow[1],
-        dateList: userRow[2],
+        date: userRow[2],
       },
     };
   } catch (error) {
@@ -56,7 +44,7 @@ const getUserRow = async (
   }
 };
 
-const createUserRow = async (
+export const createUserRow = async (
   message: Message,
   newDate: string
 ): Promise<UserRow> => {
@@ -71,7 +59,7 @@ const createUserRow = async (
     return {
       userId: userId,
       userName: userName,
-      dateList: [newDate],
+      date: newDate,
     };
   } catch (error) {
     console.error("Error creating user row:", error);
@@ -79,7 +67,7 @@ const createUserRow = async (
   }
 };
 
-const updateUserRow = async (
+export const updateUserRow = async (
   rowIndex: number,
   message: Message,
   newDate: string
@@ -98,7 +86,7 @@ const updateUserRow = async (
     return {
       userId: userId,
       userName: userName,
-      dateList: [newDate],
+      date: newDate,
     };
   } catch (error) {
     console.error("Error updating user row:", error);

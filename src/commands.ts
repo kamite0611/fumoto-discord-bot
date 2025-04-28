@@ -1,6 +1,10 @@
 import { Message } from "discord.js";
-import { saveDate } from "./libs/google-sheet/repository";
-import { validateDate } from "./utils";
+import { validateDate } from "./libs/google-sheet/date";
+import {
+  createUserRow,
+  getUserRow,
+  updateUserRow,
+} from "./libs/google-sheet/repository";
 
 export const helloCommand = async (message: Message) => {
   await message.reply("こんにちは！");
@@ -17,6 +21,14 @@ export const saveCommand = async (message: Message) => {
     return;
   }
 
-  await saveDate(message, newDate);
-  await message.reply(`Saved ${newDate}`);
+  const data = await getUserRow(message);
+  if (!data) {
+    await createUserRow(message, newDate);
+    await message.reply(`*Saved:* ${newDate}`);
+    return;
+  }
+  const { rowIndex, userRow } = data;
+
+  const newData = await updateUserRow(rowIndex, message, newDate);
+  await message.reply(`*Upddated:* ${userRow.date} -> ${newData.date}`);
 };
