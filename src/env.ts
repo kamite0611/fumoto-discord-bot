@@ -1,4 +1,4 @@
-import envProduction from "./env-production";
+import envProduction from "./env-production.json";
 
 export const env = {
   DISCORD_TOKEN: envProduction.DISCORD_TOKEN,
