@@ -1,5 +1,6 @@
 import { Message } from "discord.js";
 import { getUserId, getUserName } from "../discord";
+import { formatDate } from "./date";
 import {
   appendSpreadsheetData,
   deleteRow,
@@ -47,7 +48,7 @@ export const getUserRow = async (
 
 export const createUserRow = async (
   message: Message,
-  newDate: string
+  newDate: Date
 ): Promise<UserRow> => {
   const userId = getUserId(message);
   const userName = getUserName(message);
@@ -60,7 +61,7 @@ export const createUserRow = async (
     return {
       userId: userId,
       userName: userName,
-      date: newDate,
+      date: formatDate(newDate),
     };
   } catch (error) {
     console.error("Error creating user row:", error);
@@ -71,11 +72,11 @@ export const createUserRow = async (
 export const updateUserRow = async (
   rowIndex: number,
   message: Message,
-  newDate: string
+  newDate: Date
 ): Promise<UserRow> => {
   const userId = getUserId(message);
   const userName = getUserName(message);
-  const values = [[userId, userName, newDate]];
+  const values = [[userId, userName, formatDate(newDate)]];
 
   try {
     // 既存の行を更新
@@ -87,7 +88,7 @@ export const updateUserRow = async (
     return {
       userId: userId,
       userName: userName,
-      date: newDate,
+      date: formatDate(newDate),
     };
   } catch (error) {
     console.error("Error updating user row:", error);

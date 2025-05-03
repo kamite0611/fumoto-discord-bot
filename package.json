@@ -10,7 +10,9 @@
     "docker:run": "docker-compose up --build",
     "docker:down": "docker-compose down",
     "docker:logs": "docker-compose logs -f",
-    "deploy": "gcloud builds submit --config cloud-build.yaml --project fumoto-discord-bot"
+    "deploy": "gcloud builds submit --config cloud-build.yaml --project fumoto-discord-bot",
+    "deploy:stop": "gcloud compute instances stop fumoto-discord-bot --zone=us-central1-a",
+    "deploy:start": "gcloud compute instances start fumoto-discord-bot --zone=us-central1-a"
   },
   "dependencies": {
     "discord.js": "^14.14.1",

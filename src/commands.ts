@@ -1,5 +1,9 @@
 import { Message } from "discord.js";
-import { validateDate } from "./libs/google-sheet/date";
+import {
+  formatDate,
+  getTargetDate,
+  validateDate,
+} from "./libs/google-sheet/date";
 import {
   createUserRow,
   deleteUserRow,
@@ -11,7 +15,7 @@ export const helpCommand = async (message: Message) => {
   await message.reply(
     `\`\`\`
 /get                  Check your data
-/save <yyyy-mm-dd>    Save your data
+/save <mm-dd>    Save your data
 /remove               Remove your data
 \`\`\``
   );
@@ -28,16 +32,18 @@ export const getCommand = async (message: Message) => {
 };
 
 export const saveCommand = async (message: Message) => {
-  const newDate = message.content.split(" ")[1];
-  if (!validateDate(newDate)) {
-    await message.reply("*Please enter in the format:* `/save yyyy-mm-dd`");
+  const props = message.content.split(" ")[1];
+  if (!validateDate(props)) {
+    await message.reply("*Please enter in the format:* `/save mm-dd`");
     return;
   }
+
+  const newDate = getTargetDate(props);
 
   const data = await getUserRow(message);
   if (!data) {
     await createUserRow(message, newDate);
-    await message.reply(`*Saved:* ${newDate}`);
+    await message.reply(`*Saved:* ${formatDate(newDate)}`);
     return;
   }
   const { rowIndex, userRow } = data;
