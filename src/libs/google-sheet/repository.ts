@@ -52,7 +52,7 @@ export const createUserRow = async (
 ): Promise<UserRow> => {
   const userId = getUserId(message);
   const userName = getUserName(message);
-  const values = [[userId, userName, newDate]];
+  const values = [[userId, userName, formatDate(newDate)]];
 
   try {
     // A:C列の最後の空いている行にデータを追加
