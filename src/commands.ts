@@ -15,7 +15,7 @@ export const helpCommand = async (message: Message) => {
   await message.reply(
     `\`\`\`
 /get                  Check your data
-/save <mm-dd>    Save your data
+/save <MM-DD>         Save your data
 /remove               Remove your data
 \`\`\``
   );
