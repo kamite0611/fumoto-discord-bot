@@ -30,4 +30,4 @@ logs/
 # TypeScript
 *.tsbuildinfo
 
-env.production.ts
+env-production.ts
