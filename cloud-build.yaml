@@ -24,7 +24,10 @@ steps:
       - "fumoto-discord-bot"
       - "--container-image=gcr.io/fumoto-discord-bot/fumoto-discord-bot"
       - "--zone=us-central1-a"
-      - "--container-env-file=.env"
+      - "--container-restart-policy=always"
+      - "--container-privileged"
+      - "--container-command=npm"
+      - "--container-arg=start"
 
 images:
   - "gcr.io/fumoto-discord-bot/fumoto-discord-bot"

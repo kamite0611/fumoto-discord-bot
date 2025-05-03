@@ -1,16 +1,13 @@
 import { JWT } from "google-auth-library";
 import { google } from "googleapis";
-import {
-  GOOGLE_PRIVATE_KEY,
-  GOOGLE_SERVICE_ACCOUNT_EMAIL,
-} from "../../settings";
+import { env } from "../../env";
 
 // Google Sheets APIの設定
 const SPREADSHEET_ID = "1EgCnN36YyzSGZn9EFX_fIbnbk2c4Uc2BHWC0EmXOaZQ";
 
 const auth = new JWT({
-  email: GOOGLE_SERVICE_ACCOUNT_EMAIL,
-  key: GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+  email: env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+  key: env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
   scopes: ["https://www.googleapis.com/auth/spreadsheets"],
 });
 

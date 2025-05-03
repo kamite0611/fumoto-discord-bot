@@ -5,8 +5,8 @@ import {
   helpCommand,
   saveCommand,
 } from "./commands";
+import { env } from "./env";
 import { DiscordClient } from "./libs/discord";
-import { DISCORD_TOKEN } from "./settings";
 
 // メッセージ処理
 async function handleMessage(message: Message): Promise<void> {
@@ -79,7 +79,7 @@ async function startBot(): Promise<Client> {
 
   // Botログイン
   try {
-    await DiscordClient.login(DISCORD_TOKEN);
+    await DiscordClient.login(env.DISCORD_TOKEN);
     console.log("Bot logged in successfully");
   } catch (error) {
     console.error("Failed to login:", error);

@@ -15,7 +15,6 @@
   "dependencies": {
     "discord.js": "^14.14.1",
     "@google-cloud/firestore": "^7.1.0",
-    "dotenv": "^16.4.1",
     "googleapis": "^133.0.0",
     "google-auth-library": "^9.6.3"
   },
