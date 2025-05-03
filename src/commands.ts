@@ -34,7 +34,7 @@ export const getCommand = async (message: Message) => {
 export const saveCommand = async (message: Message) => {
   const props = message.content.split(" ")[1];
   if (!validateDate(props)) {
-    await message.reply("*Please enter in the format:* `/save mm-dd`");
+    await message.reply("*Please enter in the format:* `/save MM-DD`");
     return;
   }
 
