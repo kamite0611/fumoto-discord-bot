@@ -28,9 +28,6 @@ steps:
       - "--container-privileged"
       - "--container-command=npm"
       - "--container-arg=start"
-      - "--maintenance-policy=MIGRATE"
-      - "--no-automatic-restart=false"
-      - "--no-deletion-protection=false"
 
 images:
   - "gcr.io/fumoto-discord-bot/fumoto-discord-bot"
